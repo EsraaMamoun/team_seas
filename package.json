@@ -5,12 +5,17 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
+    "dev": "concurrently \"yarn:start:dev\" \"yarn:gen-typings\" \"yarn:prisma:generate\"",
     "start:dev": "nest start --watch",
+    "gen-typings": "ts-node ./src/generate.typings.ts",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
@@ -18,15 +23,31 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "prisma:migrate": "npx prisma migrate dev --name init",
+    "prisma:generate": "prisma generate --watch"
   },
   "dependencies": {
+    "@nestjs/apollo": "^10.0.19",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
+    "@nestjs/graphql": "9.2.7",
+    "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^9.0.0",
+    "@prisma/client": "^4.2.1",
+    "apollo-server-express": "^3.10.1",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.13.2",
+    "concurrently": "^7.3.0",
+    "graphql": "^16.5.0",
+    "graphql-iso-date": "^3.6.1",
+    "graphql-subscriptions": "^2.0.0",
+    "prisma": "^4.2.1",
+    "prisma-nestjs-graphql": "^17.0.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "ts-morph": "^15.1.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
